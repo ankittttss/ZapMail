@@ -341,6 +341,17 @@ npm run dev
 
 More sections can be added once you share your additional details or code.
 
+Snippets from Frontend -: 
+
+<img width="959" height="443" alt="FS1" src="https://github.com/user-attachments/assets/b0dec4c4-0890-4e0a-8401-8b84c367448e" />
+
+<img width="959" height="443" alt="FS2" src="https://github.com/user-attachments/assets/14129242-136b-42cc-87fa-bca4407ea47a" />
+
+<img width="959" height="442" alt="FS3" src="https://github.com/user-attachments/assets/24927cf6-95ce-4b6f-b0cb-1b3c9642fcae" />
+
+<img width="959" height="443" alt="FS4" src="https://github.com/user-attachments/assets/3d156bce-0434-4a03-98be-db4f442b9e7f" />
+
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
