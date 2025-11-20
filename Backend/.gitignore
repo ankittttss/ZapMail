@@ -1,0 +1,4 @@
+.env
+node_modules
+.transformers_cache/
+node_modules/
