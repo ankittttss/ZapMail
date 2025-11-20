@@ -21,6 +21,15 @@ An intelligent email management system that syncs, categorizes, and analyzes ema
 - **AI/ML**: Google Gemini API & Claude API (in progress)
 - **Notifications**: Slack API
 
+## Backend Snippets
+
+This Image Depicts my Elastic Database.
+<img width="959" height="445" alt="BS1" src="https://github.com/user-attachments/assets/38c11a60-6b15-4b4a-b9ee-2a57eb839e82" />
+
+<img width="959" height="472" alt="BS2" src="https://github.com/user-attachments/assets/499e500e-1903-4c36-bfe4-ad6366d26683" />
+
+
+
 ## API Endpoints
 
 ### Email Operations
