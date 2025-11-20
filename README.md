@@ -7,6 +7,7 @@ An intelligent email management system that syncs, categorizes, and analyzes ema
 - **IMAP Email Sync**: Real-time email synchronization using `imap-flow`
 - **Elasticsearch Integration**: Fast and efficient email search and storage using Docker-based Elasticsearch
 - **AI-Powered Categorization**: Automatic email categorization using Gemini API
+- **RAG-Based Suggested Replies**: Context-aware email reply suggestions using Weaviate vector database and Claude API (in development)
 - **Slack Notifications**: Integration with Slack for important email alerts
 - **Advanced Search**: Query-based email search capabilities
 - **Email Filtering**: Filter emails by recipient, date range, and categories
@@ -16,7 +17,8 @@ An intelligent email management system that syncs, categorizes, and analyzes ema
 - **Backend**: Node.js with Express & TypeScript
 - **Email Protocol**: IMAP (via `imap-flow`)
 - **Search Engine**: Elasticsearch (Docker)
-- **AI/ML**: Google Gemini API
+- **Vector Database**: Weaviate (for RAG-based suggested replies)
+- **AI/ML**: Google Gemini API & Claude API (in progress)
 - **Notifications**: Slack API
 
 ## API Endpoints
@@ -101,6 +103,7 @@ Sends a test notification to Slack with custom payload.
 - Docker & Docker Compose
 - IMAP-enabled email account
 - Gemini API key
+- Claude API key (for suggested replies - optional)
 - Slack webhook URL
 
 ### Installation Steps
@@ -116,9 +119,9 @@ cd zapmail
 npm install
 ```
 
-3. Start Elasticsearch using Docker:
+3. Start Elasticsearch and Weaviate using Docker:
 ```bash
-docker-compose up -d elasticsearch
+docker-compose up -d
 ```
 
 4. Configure environment variables:
@@ -135,7 +138,11 @@ IMAP_PASSWORD=your-password
 
 ELASTICSEARCH_URL=http://localhost:9200
 
+WEAVIATE_URL=http://localhost:8080
+
 GEMINI_API_KEY=your-gemini-api-key
+
+CLAUDE_API_KEY=your-claude-api-key
 
 SLACK_WEBHOOK_URL=your-slack-webhook-url
 ```
@@ -213,7 +220,13 @@ curl -X POST http://localhost:3000/sendNotification \
                             │
                             ├─────▶ Gemini API (Categorization)
                             │
+                            ├─────▶ Weaviate (Vector DB for RAG)
+                            │             │
+                            │             └─────▶ Claude API (Suggested Replies)*
+                            │
                             └─────▶ Slack API (Notifications)
+
+* In Development
 ```
 
 ## Development
@@ -227,18 +240,23 @@ zapmail/
 │   ├── routes/
 │   │   └── email.ts       # API routes
 │   ├── services/
-│   │   ├── imap.ts        # IMAP sync service
-│   │   ├── elasticsearch.ts
-│   │   └── gemini.ts      # AI categorization
+│   │   ├── imapservice.ts
+│   │   └── emailParser.ts
+|   |--- config
+│   │   └── elasticSearch.ts
+|   |   └── weavete.ts
+|   |   └── slackConfig.ts
+|   |   └── emailCategoriser.ts
+|      
 │   └── index.ts           # Application entry point
-├── docker-compose.yml     # Elasticsearch container
 ├── package.json
 └── tsconfig.json
 ```
 
 ## Future Enhancements
 
-- [ ] Email reply suggestions using Gemini API
+- [x] RAG-based email reply suggestions using Weaviate and Claude API (in progress)
+- [ ] Complete Claude API integration for suggested replies
 - [ ] Advanced email threading
 - [ ] Custom categorization rules
 - [ ] Email scheduling
