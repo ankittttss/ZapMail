@@ -1,4 +1,4 @@
-# ZapMail
+# ZapMail - Backend
 
 An intelligent email management system that syncs, categorizes, and analyzes emails using IMAP, Elasticsearch, and AI-powered suggestions.
 
@@ -262,6 +262,75 @@ zapmail/
 - [ ] Email scheduling
 - [ ] Multi-account support
 - [ ] Dashboard UI for analytics
+
+# ZapMail Frontend Readme
+
+This project is a **Next.js-based frontend** built using a **component-driven** architecture and following the **DRY (Don't Repeat Yourself)** principle for clean, reusable, and maintainable code.
+
+## 🚀 Features Implemented
+
+### ✓ Component-Based Architecture
+
+* UI broken down into small, reusable components.
+* Ensures maintainability and consistency across the app.
+
+### ✓ DRY Principle
+
+* Avoided duplicate logic by centralizing commonly used utilities and components.
+* Abstracted repeated UI blocks into shared components.
+
+### ✓ Pagination Implemented
+
+* Efficiently fetches and displays paginated data.
+* Fully dynamic and works with API queries or local state.
+* Provides smooth navigation between pages.
+
+### ✓ Debounce Functionality Working (In Progress)
+
+* Implemented debounce for search input to avoid excessive API calls.
+* Ensures optimized performance and responsive UX.
+* Custom debounce hook created for reusability.
+
+## 📁 Folder Structure
+
+```
+/ components
+  / emails
+     -DashBoardHeader.tsx
+     -EmailCard.tsx
+     -EmptyState.tsx
+     -ErrorState.tsx
+     -FilterPanel.tsx
+     -LoadingSpinner.tsx
+     -PaginationControl.tsx
+/constants
+  -emailConstant.ts
+/emails
+  -page.tsx (Home Page)
+/services
+  -emailService.ts
+/type
+  -emails.ts
+/utils
+  -emailUtils.ts
+```
+
+## 🛠️ Tech Stack
+
+* **Next.js**
+* **TypeScript
+* **TailwindCSS** or CSS Modules
+
+## 📦 How to Run
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+More sections can be added once you share your additional details or code.
 
 ## Contributing
 
