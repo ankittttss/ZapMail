@@ -17,8 +17,8 @@ An intelligent email management system that syncs, categorizes, and analyzes ema
 - **Backend**: Node.js with Express & TypeScript
 - **Email Protocol**: IMAP (via `imap-flow`)
 - **Search Engine**: Elasticsearch (Docker)
-- **Vector Database**: Weaviate (for RAG-based suggested replies)
-- **AI/ML**: Google Gemini API & Claude API (in progress)
+- **Vector Database**: Pinecode (for RAG-based suggested replies)
+- **AI/ML**: Google Gemini API & Claude API
 - **Notifications**: Slack API
 
 ## Backend Snippets
@@ -27,6 +27,9 @@ This Image Depicts my Elastic Database.
 <img width="959" height="445" alt="BS1" src="https://github.com/user-attachments/assets/38c11a60-6b15-4b4a-b9ee-2a57eb839e82" />
 
 <img width="959" height="472" alt="BS2" src="https://github.com/user-attachments/assets/499e500e-1903-4c36-bfe4-ad6366d26683" />
+
+<img width="959" height="472" alt="BS3" src="https://github.com/user-attachments/assets/abff04bc-2b3b-483d-8af9-0dfd710e9a5b" />
+
 
 
 
@@ -96,13 +99,13 @@ POST /sendNotification
 ```
 Sends a test notification to Slack with custom payload.
 
-**Request Body:**
-```json
-{
-  "message": "Your notification message",
-  "email": "email details"
-}
+#### Suggest Reply for an Email
 ```
+GET /suggestreply/:id
+```
+Suggest Reply for Email
+
+**Request Body:**
 
 ## Setup & Installation
 
@@ -253,7 +256,7 @@ zapmail/
 │   │   └── emailParser.ts
 |   |--- config
 │   │   └── elasticSearch.ts
-|   |   └── weavete.ts
+|   |   └── pinecone.ts
 |   |   └── slackConfig.ts
 |   |   └── emailCategoriser.ts
 |      
@@ -262,15 +265,6 @@ zapmail/
 └── tsconfig.json
 ```
 
-## Future Enhancements
-
-- [x] RAG-based email reply suggestions using Weaviate and Claude API (in progress)
-- [ ] Complete Claude API integration for suggested replies
-- [ ] Advanced email threading
-- [ ] Custom categorization rules
-- [ ] Email scheduling
-- [ ] Multi-account support
-- [ ] Dashboard UI for analytics
 
 # ZapMail Frontend Readme
 
@@ -312,6 +306,7 @@ This project is a **Next.js-based frontend** built using a **component-driven** 
      -FilterPanel.tsx
      -LoadingSpinner.tsx
      -PaginationControl.tsx
+     -SuggestedReply.tsx
 /constants
   -emailConstant.ts
 /emails
@@ -350,6 +345,9 @@ Snippets from Frontend -:
 <img width="959" height="442" alt="FS3" src="https://github.com/user-attachments/assets/24927cf6-95ce-4b6f-b0cb-1b3c9642fcae" />
 
 <img width="959" height="443" alt="FS4" src="https://github.com/user-attachments/assets/3d156bce-0434-4a03-98be-db4f442b9e7f" />
+
+<img width="959" height="476" alt="FS5" src="https://github.com/user-attachments/assets/1e5e3d48-20fe-4c43-a4ce-42128be6cde2" />
+
 
 
 ## Contributing
