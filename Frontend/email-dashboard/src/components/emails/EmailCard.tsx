@@ -6,9 +6,10 @@ import { formatDate, getCategoryColor } from "../../utils/emailUtils";
 interface EmailCardProps {
   email: Email;
   onCategorise: (id: string) => void;
+  onSuggest: (id: string) => void;
 }
 
-const EmailCard: React.FC<EmailCardProps> = ({ email, onCategorise }) => {
+const EmailCard: React.FC<EmailCardProps> = ({ email, onCategorise,onSuggest }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-xl hover:border-blue-200 transition-all duration-300 cursor-pointer group">
       <div className="flex items-start justify-between mb-4">
@@ -61,6 +62,16 @@ const EmailCard: React.FC<EmailCardProps> = ({ email, onCategorise }) => {
             className="ml-6 mt-4 px-2 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             Categorise Email
+          </button>
+
+           <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onSuggest(email.id);
+            }}
+            className="ml-6 mt-4 px-2 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Suggest Replies
           </button>
         </div>
       </div>

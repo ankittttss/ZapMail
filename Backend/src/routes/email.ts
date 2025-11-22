@@ -1,7 +1,7 @@
 // My Routes for Email Related  Operations
 
 import { Router, RequestHandler } from "express";
-import { categoriseEmailById, categoriseEmails, categoriseEmailsByTo, getAll, getAllEmails, getEmailById, getLast30DaysEmails,  searchEmails, testSlackNotification } from "../controller/email";
+import { categoriseEmailById, categoriseEmails, categoriseEmailsByTo, getAll, getAllEmails, getEmailById, getLast30DaysEmails,  getSuggestedReplies,  searchEmails, testSlackNotification } from "../controller/email";
 
 const router = Router();
 
@@ -32,6 +32,6 @@ router.get("/search",searchEmails);
 
 router.get("/getAll",getAll);
 
-// router.post("/suggestedreply",getSuggestedReply);
+router.get("/suggestedreply/:id",getSuggestedReplies)
 
 export default router;

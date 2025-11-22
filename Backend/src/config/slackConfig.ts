@@ -5,7 +5,7 @@
 import { IncomingWebhook } from '@slack/webhook';
 
 // Your Slack webhook URL
-const slackWebhookUrl = 'https://hooks.slack.com/services/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';
+const slackWebhookUrl = 'https://hooks.slack.com/services/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';
 const slackWebhook = new IncomingWebhook(slackWebhookUrl);
 
 // Function to send Slack notification for an email

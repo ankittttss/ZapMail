@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/app';
+const API_BASE_URL = 'http://localhost:3002/app';
 const SEARCH_API_URL = `${API_BASE_URL}/search`;
 const GET_ALL_API_URL = `${API_BASE_URL}/getAll`;
 

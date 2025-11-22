@@ -3,13 +3,19 @@ import {GoogleGenAI} from '@google/genai';
 import { createElasticClient } from '../config/elasticSearc';
 import { sendSlackNotification } from "../config/slackConfig";
 import categorizeEmail from "../config/emailcategorizer";
+import dotenv from 'dotenv'
+import { getSuggestedReply } from "../config/pinecone";
 
 const elasticClient = createElasticClient();
 const indexName = 'search-w9v0-myemails';
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
-const GEMINI_API_KEY =  "AIzaSyB45uQ1GIkHLrh7-2vdgY3gTfJL4Ph_I-s";
+dotenv.config();
+
+const GEMINI_API_URL =  process.env.GEMINI_URL;
+const GEMINI_API_KEY =  process.env.GEMINI_KEY;
+console.log("Using Gemini API Key:", GEMINI_API_KEY ? "Provided" : "Not Provided");
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
 const LABELS = ["Interested", "Meeting Booked", "Not Interested", "Out of Office","Spam"];
 
 
@@ -351,6 +357,8 @@ export const getEmailById = async (req: Request, res: Response) => {
       body: _source.body || '',
     };
 
+    getSuggestedReply(email);
+
     res.status(200).json({
       success: true,
       email,
@@ -455,65 +463,45 @@ export const searchEmails = async (req: Request, res: Response) => {
   }
 };
 
+export const getSuggestedReplies = async (req: Request, res: Response) => {
+  try {
 
-// export const getSuggestedReply = async (req: Request, res: Response) => {
-//   try {
-//     const { email } = req.body;
+    const { id } = req.params;
+    console.log("Received ID for categorization:", id);
 
-//     if (!email) {
-//       res.status(400);
-//       res.json({ error: "Email text is required." });
-//       return;
-//     }
+    if (!id || typeof id !== "string") {
+      res.status(400).json({ error: "Missing or invalid id" });
+      return;
+    }
 
-//     // 1. Get Weaviate client instance
-//     const weaviateClient: any = await WeaviateRAG();
+    const { _source } = await elasticClient.get<EmailPayload>({
+      index: indexName,
+      id,
+    });
 
-//     const match =
-//       typeof weaviateClient?.retrieveSimilar === "function"
-//         ? await weaviateClient.retrieveSimilar(email)
-//         : null;
+    if (!_source) {
+      res.status(404).json({ error: "Email not found" });
+      return;
+    }
+    
+     const email: EmailPayload = {
+      id,
+      subject: _source.subject || "",
+      from: _source.from || "",
+      to: _source.to || "",
+      date: _source.date || "",
+      category: _source.category || "Uncategorized",
+      body: _source.body || "",
+    };
 
-//     if (!match) {
-//       res.status(404);
-//       res.json({ error: "No training data found." });
-//       return;
-//     }
+    const result = await getSuggestedReply(email);
 
-//     const prompt = `
-// You are an AI email assistant.
-// Use the retrieved context and example reply to generate a polished, professional email response.
+    res.status(200).json({ success: true, data: result });
+    return;
+  } catch (error: any) {
+    console.error("Failed to get suggested replies:", error.message);
+    res.status(500).json({ error: "Failed to get suggested replies" });
+    return;
+  }
+};
 
-// --- CONTEXT ---
-// ${match.context}
-
-// --- STYLE EXAMPLE ---
-// ${match.exampleReply}
-
-// --- INCOMING EMAIL ---
-// ${email}
-
-// Write the best possible reply in a friendly, professional tone.
-// `.trim();
-
-//     console.log("Weaviate Client Loaded:", !!weaviateClient);
-
-//     // 2. Generate text using Google Gemini
-//     const result = await ai.models.generateContent({
-//       model: "gemini-2.0-flash",
-//       contents: prompt,
-//     });
-
-//     res.json({
-//       suggestedReply: result.text,
-//       usedContext: match.context,
-//     });
-//     return;
-//   } catch (err) {
-//     console.error("Error generating reply:", err);
-
-//     res.status(500);
-//     res.json({ error: "Failed to generate reply." });
-//     return;
-//   }
-// };

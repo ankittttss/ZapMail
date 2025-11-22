@@ -10,8 +10,31 @@ import ErrorState from '../components/emails/ErrorState';
 import { Email, Pagination, FilterState } from '../types/email';
 import { fetchEmails, searchEmails } from '../services/emailService';
 import axios from 'axios';
+import SuggestedReplyDisplay from '../components/emails/SuggestedReply';
+
+interface ApiResponse {
+  success: boolean;
+  data: {
+    incomingEmail: {
+      id: string;
+      subject: string;
+      from: string;
+      to: string;
+      date: string;
+      category: string;
+      body: string;
+    };
+    suggestedReply: string;
+    similarScenarios: Array<{
+      scenario: string;
+      similarity: string;
+    }>;
+  };
+}
 
 const EmailsPage = () => {
+  const [showReply, setShowReply] = useState(false);
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
   const [allEmails, setAllEmails] = useState<Email[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,8 +43,14 @@ const EmailsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
+  const handleSuggest = async (id: string) => {
+  const response = await axios.get(`http://localhost:3002/app/suggestedreply/${id}`);
+  setApiResponse(response.data);
+  setShowReply(true);
+}
+
   const handleCategorise = async (id: string) => {
-  await axios.get(`http://localhost:5000/app/categorise/${id}`);
+  await axios.get(`http://localhost:3002/app/categorise/${id}`);
  window.location.reload();
 
 };
@@ -199,6 +228,7 @@ const EmailsPage = () => {
           onClearFilters={clearFilters}
           hasActiveFilters={hasActiveFilters}
           onCategorise={handleCategorise}
+          onSuggest={handleSuggest}
         />
 
         {/* Always show pagination */}
@@ -212,6 +242,14 @@ const EmailsPage = () => {
             onNextPage={() => setCurrentPage(prev => Math.min(pagination.totalPages, prev + 1))}
           />
         )}
+
+          {showReply && apiResponse && (
+        <SuggestedReplyDisplay 
+          apiResponse={apiResponse}
+          onClose={() => setShowReply(false)}
+          autoCloseDuration={10} // optional, defaults to 10 seconds
+        />
+      )}
       </div>
     </div>
   );

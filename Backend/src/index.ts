@@ -4,7 +4,6 @@ import cors from 'cors';
 import { startIMAP } from './services/imapservice'
 import router from './routes/email';
 import { createElasticClient, testElasticConnection } from './config/elasticSearc';
-// import { smartReply } from './config/weavete';
 
 
 dotenv.config(); // Storing the Credentials

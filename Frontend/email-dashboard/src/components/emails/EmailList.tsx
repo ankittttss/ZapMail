@@ -8,6 +8,7 @@ interface EmailListProps {
   onClearFilters: () => void;
   hasActiveFilters: boolean;
   onCategorise: (id: string) => void;   // NEW
+  onSuggest: (id: string) => void;      // NEW
 }
 
 const EmailList: React.FC<EmailListProps> = ({
@@ -15,6 +16,7 @@ const EmailList: React.FC<EmailListProps> = ({
   onClearFilters,
   hasActiveFilters,
   onCategorise,
+  onSuggest
 }) => {
   if (emails.length === 0) {
     return (
@@ -31,7 +33,8 @@ const EmailList: React.FC<EmailListProps> = ({
         <EmailCard
           key={email.id}
           email={email}
-          onCategorise={onCategorise}   
+          onCategorise={onCategorise}  
+          onSuggest={onSuggest} 
         />
       ))}
     </div>
